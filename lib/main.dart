@@ -29,34 +29,25 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GetX<ValueController>(
-              init: valueController,
-              builder: (controller) {
-                return Text('Valor definido: ${controller.definedValue.value}');
-              },
-            ),
+            Obx(() => Text('Valor definido: ${valueController.definedValue.value}')),
+           
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 32),
               child: TextField(controller: textController),
             ),
-            GetX<ValueController>(
-              init: valueController,
-              initState: (_) {},
-              builder: (controller) {
-                return ElevatedButton(
+
+            Obx(() => ElevatedButton(
                   onPressed: () {
                     String value = textController.text;
 
                     valueController.setValue(value);
                   },
-                  child: controller.isLoading.value
+                  child: valueController.isLoading.value
                       ? const CupertinoActivityIndicator(
                           color: Colors.white,
                         )
                       : const Text('Confirmar'),
-                );
-              },
-            )
+                ),)
           ],
         ),
       ),
