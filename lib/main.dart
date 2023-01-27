@@ -29,15 +29,19 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GetBuilder<ValueController>(
+            GetX<ValueController>(
               init: valueController,
-              builder: (ctrl) {
-                return Text('Valor definido: ${valueController.definedValue}');
+              builder: (controller) {
+                return Text('Valor definido: ${controller.definedValue.value}');
               },
             ),
-            TextField(controller: textController),
-            GetBuilder<ValueController>(
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 32),
+              child: TextField(controller: textController),
+            ),
+            GetX<ValueController>(
               init: valueController,
+              initState: (_) {},
               builder: (controller) {
                 return ElevatedButton(
                   onPressed: () {
@@ -45,7 +49,7 @@ class HomePage extends StatelessWidget {
 
                     valueController.setValue(value);
                   },
-                  child: controller.isLoading
+                  child: controller.isLoading.value
                       ? const CupertinoActivityIndicator(
                           color: Colors.white,
                         )
