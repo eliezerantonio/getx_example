@@ -5,7 +5,7 @@ import 'user_controller.dart';
 
 void main() {
   // Get.put<UserController>(UserController());
-  Get.lazyPut<UserController>(()=>UserController());
+  Get.lazyPut<UserController>(() => UserController());
 
   runApp(const MyApp());
 }
@@ -65,8 +65,7 @@ class HomePage extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => DataScreen()));
+                  Get.to(()=>DataScreen());
                 },
                 child: const Text('Tela de dados'))
           ],
@@ -88,9 +87,13 @@ class DataScreen extends GetView<UserController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Obx(() => Text('Nome : ${controller.user.value.name} ') ),
-
+              Obx(() => Text('Nome : ${controller.user.value.name} ')),
               Obx(() => Text('Idade : ${controller.user.value.age} ')),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: const Text('Voltar'))
             ],
           ),
         ));
