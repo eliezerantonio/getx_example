@@ -76,8 +76,8 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class DataScreen extends StatelessWidget {
-  final userController = Get.find<UserController>();
+class DataScreen extends GetView<UserController> {
+  // final userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +88,9 @@ class DataScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Obx(() => Text('Nome : ${userController.user.value.name} ')),
-              Obx(() => Text('Idade : ${userController.user.value.age} ')),
+              Obx(() => Text('Nome : ${controller.user.value.name} ') ),
+
+              Obx(() => Text('Idade : ${controller.user.value.age} ')),
             ],
           ),
         ));
