@@ -3,7 +3,12 @@ import 'package:get/get.dart';
 
 import 'user_controller.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  // Get.put<UserController>(UserController());
+  Get.lazyPut<UserController>(()=>UserController());
+
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -21,7 +26,7 @@ class HomePage extends StatelessWidget {
   final nameController = TextEditingController();
   final ageController = TextEditingController();
 
-  final userController = UserController();
+  final UserController userController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,8 +36,6 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Obx(() => Text('Nome : ${userController.user.value.name} ')),
-            Obx(() => Text('Idade : ${userController.user.value.age} ')),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Row(
@@ -60,9 +63,35 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => DataScreen()));
+                },
+                child: const Text('Tela de dados'))
           ],
         ),
       ),
     );
+  }
+}
+
+class DataScreen extends StatelessWidget {
+  final userController = Get.find<UserController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(),
+        body: SizedBox(
+          width: Get.width,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Obx(() => Text('Nome : ${userController.user.value.name} ')),
+              Obx(() => Text('Idade : ${userController.user.value.age} ')),
+            ],
+          ),
+        ));
   }
 }
