@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_example/value_controller.dart';
+
+import 'user_controller.dart';
 
 void main() => runApp(const MyApp());
 
@@ -18,9 +18,10 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  final textController = TextEditingController();
-  final valueController = ValueController();
+  final nameController = TextEditingController();
+  final ageController = TextEditingController();
 
+  final userController = UserController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,26 +29,37 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Obx(() => Text('Valor definido: ${valueController.definedValue.value}')),
-           
+            Obx(() => Text('Nome : ${userController.user.value.name} ')),
+            Obx(() => Text('Idade : ${userController.user.value.age} ')),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 32),
-              child: TextField(controller: textController),
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Row(
+                children: [
+                  Expanded(child: TextField(controller: nameController)),
+                  ElevatedButton(
+                      onPressed: () {
+                        userController.setUserName(nameController.text);
+                      },
+                      child: const Text('Salvar'))
+                ],
+              ),
             ),
-
-            Obx(() => ElevatedButton(
-                  onPressed: () {
-                    String value = textController.text;
-
-                    valueController.setValue(value);
-                  },
-                  child: valueController.isLoading.value
-                      ? const CupertinoActivityIndicator(
-                          color: Colors.white,
-                        )
-                      : const Text('Confirmar'),
-                ),)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Row(
+                children: [
+                  Expanded(child: TextField(controller: ageController)),
+                  ElevatedButton(
+                      onPressed: () {
+                        userController
+                            .setUserAge(int.tryParse(ageController.text)!);
+                      },
+                      child: const Text('Salvar'))
+                ],
+              ),
+            ),
           ],
         ),
       ),
